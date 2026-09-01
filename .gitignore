@@ -1,0 +1,31 @@
+# ========================
+# .NET build artifacts
+# ========================
+bin/
+obj/
+[Bb]uild/
+[Ll]ogs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# ========================
+# IDE
+# ========================
+.vs/
+.vscode/
+.idea/
+
+# ========================
+# OS files
+# ========================
+.DS_Store
+Thumbs.db
+
+# ========================
+# Generated
+# ========================
+*.log
+temp/
+tmp/
