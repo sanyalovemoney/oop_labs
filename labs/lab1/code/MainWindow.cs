@@ -51,12 +51,24 @@ namespace Lab1
 
         private void OnWork1Clicked(object? sender, EventArgs e)
         {
-            lblDisplayText.Text = "Робота 1 ще не реалізована.";
+            using (var form = new Module1Form())
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    lblDisplayText.Text = form.Result;
+                }
+            }
         }
 
         private void OnWork2Clicked(object? sender, EventArgs e)
         {
-            lblDisplayText.Text = "Робота 2 ще не реалізована.";
+            using (var form = new Module2Form())
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    lblDisplayText.Text = form.Result;
+                }
+            }
         }
 
         private void OnAboutClicked(object? sender, EventArgs e)
