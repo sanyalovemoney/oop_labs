@@ -49,6 +49,22 @@ namespace Lab2
             this.Text = $"Graphic Object Editor - Lab 2 [{_currentType}]";
         }
 
+        private static Shape CreateShape(ShapeType type, Point start, Point end) => type switch
+        {
+            ShapeType.Point => new PointShape(start.X, start.Y, end.X, end.Y),
+            ShapeType.Line => new LineShape(start.X, start.Y, end.X, end.Y),
+            ShapeType.Rectangle => new RectShape(start.X, start.Y, end.X, end.Y),
+            ShapeType.Ellipse => new EllipseShape(start.X, start.Y, end.X, end.Y),
+            _ => throw new ArgumentOutOfRangeException(nameof(type))
+        };
+
+        private static Brush GetFillBrush(Shape shape) => shape switch
+        {
+            RectShape => Brushes.Orange,
+            EllipseShape => Brushes.White,
+            _ => Brushes.LightGray
+        };
+
         protected override void OnMouseDown(MouseEventArgs e)
         {
             base.OnMouseDown(e);
@@ -76,20 +92,10 @@ namespace Lab2
             if (_isDrawing && e.Button == MouseButtons.Left)
             {
                 _isDrawing = false;
-                Shape shape = CreateShape(_currentType, _startPoint, e.Location);
-                _shapes.Add(shape);
+                _shapes.Add(CreateShape(_currentType, _startPoint, e.Location));
                 this.Invalidate();
             }
         }
-
-        private static Shape CreateShape(ShapeType type, Point start, Point end) => type switch
-        {
-            ShapeType.Point => new PointShape(start.X, start.Y, end.X, end.Y),
-            ShapeType.Line => new LineShape(start.X, start.Y, end.X, end.Y),
-            ShapeType.Rectangle => new RectShape(start.X, start.Y, end.X, end.Y),
-            ShapeType.Ellipse => new EllipseShape(start.X, start.Y, end.X, end.Y),
-            _ => throw new ArgumentOutOfRangeException(nameof(type))
-        };
 
         protected override void OnPaint(PaintEventArgs e)
         {
@@ -101,7 +107,17 @@ namespace Lab2
             {
                 foreach (var shape in _shapes)
                 {
-                    shape.Draw(g, pen, Brushes.LightGray);
+                    shape.Draw(g, pen, GetFillBrush(shape));
+                }
+
+                if (_isDrawing)
+                {
+                    using (Pen rubberPen = new Pen(Color.Gray, 1) { DashStyle = System.Drawing.Drawing2D.DashStyle.Dash })
+                    using (Brush rubberBrush = new SolidBrush(Color.FromArgb(100, Color.LightGray)))
+                    {
+                        Shape rubberShape = CreateShape(_currentType, _startPoint, _currentPoint);
+                        rubberShape.Draw(g, rubberPen, rubberBrush);
+                    }
                 }
             }
         }
