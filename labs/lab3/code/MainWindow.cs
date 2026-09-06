@@ -26,6 +26,7 @@ namespace Lab3
             this.DoubleBuffered = true;
 
             InitializeMenu();
+            InitializeToolbar();
         }
 
         private void InitializeMenu()
@@ -43,6 +44,30 @@ namespace Lab3
             this.Controls.Add(_menuStrip);
 
             UpdateTitle();
+        }
+
+        private void InitializeToolbar()
+        {
+            _toolStrip = new ToolStrip();
+
+            var btnPoint = new ToolStripButton("Point") { ToolTipText = "Draw a Point" };
+            btnPoint.Click += (s, e) => { _currentType = ShapeType.Point; UpdateTitle(); };
+
+            var btnLine = new ToolStripButton("Line") { ToolTipText = "Draw a Line" };
+            btnLine.Click += (s, e) => { _currentType = ShapeType.Line; UpdateTitle(); };
+
+            var btnRect = new ToolStripButton("Rect") { ToolTipText = "Draw a Rectangle" };
+            btnRect.Click += (s, e) => { _currentType = ShapeType.Rectangle; UpdateTitle(); };
+
+            var btnEllipse = new ToolStripButton("Ellipse") { ToolTipText = "Draw an Ellipse" };
+            btnEllipse.Click += (s, e) => { _currentType = ShapeType.Ellipse; UpdateTitle(); };
+
+            _toolStrip.Items.Add(btnPoint);
+            _toolStrip.Items.Add(btnLine);
+            _toolStrip.Items.Add(btnRect);
+            _toolStrip.Items.Add(btnEllipse);
+
+            this.Controls.Add(_toolStrip);
         }
 
         private void UpdateTitle()
