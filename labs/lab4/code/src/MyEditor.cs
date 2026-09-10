@@ -14,6 +14,23 @@ namespace Lab4
             _shapes.Add(shape);
         }
 
+        public void DrawAll(Graphics g, Pen pen)
+        {
+            foreach (var shape in _shapes)
+            {
+                shape.Draw(g, pen, GetFillBrush(shape));
+            }
+        }
+
+        private static Brush GetFillBrush(Shape shape) => shape switch
+        {
+            RectShape => Brushes.Orange,
+            EllipseShape => Brushes.White,
+            LineWithCirclesShape => Brushes.Yellow,
+            CubeWireframeShape => Brushes.Cyan,
+            _ => Brushes.LightGray
+        };
+
         public void Clear()
         {
             _shapes.Clear();
